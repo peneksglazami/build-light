@@ -84,7 +84,7 @@ subprojects {
         ]
 
         jettyDeps = [
-                "org.eclipse.jetty.aggregate:jetty-all-server:$jettyVersion",
+                "org.eclipse.jetty.aggregate:jetty-all:$jettyVersion",
                 "org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016@jar",
                 "org.eclipse.jetty:jetty-continuation:$jettyVersion",
                 "org.eclipse.jetty:jetty-http:$jettyVersion"
@@ -104,8 +104,4 @@ subprojects {
     }
 
 
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.1'
 }
