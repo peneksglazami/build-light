@@ -9,6 +9,7 @@ import com.github.zutherb.buildlight.common.driver.core.Color;
 public enum BuildState {
     Successful(Color.GREEN),
     Building(Color.YELLOW),
+    Unstable(Color.YELLOW),
     Failed(Color.RED);
 
     private Color color;

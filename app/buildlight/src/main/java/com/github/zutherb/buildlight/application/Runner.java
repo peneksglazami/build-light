@@ -1,6 +1,7 @@
 package com.github.zutherb.buildlight.application;
 
 import com.github.zutherb.buildlight.arduino.driver.core.Arduino;
+import com.github.zutherb.buildlight.common.driver.core.TrafficLight;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +65,8 @@ public final class Runner {
             LOGGER.info("Type 'exit' and press enter to exit the application:");
             next = scanner.next();
         }
+        TrafficLight trafficLight = context.getBean(TrafficLight.class);
+        trafficLight.switchOffAllLeds();
         context.destroy();
         scanner.close();
         System.exit(0);

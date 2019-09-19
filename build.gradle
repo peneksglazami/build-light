@@ -35,13 +35,6 @@ ext {
     javaHome = System.properties['java.home']
 }
 
-configurations {
-    all*.exclude module: "slf4j-log4j12"
-    all*.exclude module: "jcl-over-slf4"
-    all*.exclude module: "commons-logging"
-    all*.exclude module: "log4j"
-}
-
 subprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
@@ -61,6 +54,7 @@ subprojects {
                 "org.codehaus.groovy:groovy-all:$groovyVersion",
                 "commons-lang:commons-lang:$commonsLangVersion",
                 "commons-collections:commons-collections:3.2.1",
+                "commons-logging:commons-logging:1.2",
                 "commons-io:commons-io:2.4",
                 "org.apache.commons:commons-math:2.2",
                 "org.apache.commons:commons-exec:1.1"
@@ -99,7 +93,8 @@ subprojects {
 
         jacksonDeps = [
                 "org.codehaus.jackson:jackson-mapper-asl:$jacksonVersion",
-                "org.codehaus.jackson:jackson-core-asl:$jacksonVersion"
+                "org.codehaus.jackson:jackson-core-asl:$jacksonVersion",
+                'com.fasterxml.jackson.core:jackson-databind:2.5.1'
         ]
     }
 

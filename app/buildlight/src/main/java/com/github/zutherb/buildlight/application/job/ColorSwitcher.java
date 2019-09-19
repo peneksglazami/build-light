@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public class ColorSwitcher {
     private TrafficLight light;
     private BuildServerAdapter buildServerAdapter;
 
-    private List<BuildState> lastChangedBuildState;
+    private List<BuildState> lastChangedBuildState = new ArrayList<>();
 
     @Autowired
     public ColorSwitcher(@Qualifier("trafficLight") TrafficLight light,
@@ -45,11 +46,28 @@ public class ColorSwitcher {
     }
 
     private void changeLedIfNessary(List<BuildState> currentBuildStates) throws InterruptedException {
-        if (lastChangedBuildState == null || !lastChangedBuildState.containsAll(currentBuildStates)) {
+        if (!lastChangedBuildState.containsAll(currentBuildStates) || currentBuildStates.contains(BuildState.Building)) {
             lastChangedBuildState = currentBuildStates;
             light.switchOffAllLeds();
+
+            if (currentBuildStates.contains(BuildState.Building)) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+
             for (BuildState buildState : currentBuildStates) {
                 light.switchOn(buildState.getColor());
+            }
+
+            if (currentBuildStates.contains(BuildState.Building)) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
     }

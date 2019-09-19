@@ -5,6 +5,7 @@ import com.github.zutherb.buildlight.respository.jenkins.model.JenkinsBuildRespo
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,12 +26,13 @@ public class JenkinsAdapter implements BuildServerAdapter {
     }
 
     private List<BuildState> getCurrentBuildState(List<JenkinsBuildResponse> buildResponses) {
-        List<BuildState> results = new ArrayList<>(Arrays.asList(BuildState.Successful));
+        List<BuildState> results = new ArrayList<>(Collections.singletonList(BuildState.Successful));
         for (JenkinsBuildResponse response : buildResponses) {
-            if (BuildState.Failed.equals(getCurrentBuildState(response)) && response.getDisplayName().contains("ui-test")) {
+            if (BuildState.Building.equals(getCurrentBuildState(response))) {
+                results.remove(BuildState.Successful);
                 results.add(BuildState.Building);
             }
-            if (BuildState.Failed.equals(getCurrentBuildState(response)) && !response.getDisplayName().contains("ui-test")) {
+            if (BuildState.Failed.equals(getCurrentBuildState(response))) {
                 results.remove(BuildState.Successful);
                 results.add(BuildState.Failed);
             }
